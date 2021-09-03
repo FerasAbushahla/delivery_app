@@ -16,37 +16,39 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _initialization,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Center(
-            child: Text('Error'),
-          );
-        }
-        if (snapshot.connectionState == ConnectionState.done) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
-            theme: ThemeData(
-              accentColor: AppColors.primary,
-              primaryColor: AppColors.primary,
-              // primarySwatch: Colors.amber,
-              // backgroundColor: AppColors.white,
-              appBarTheme: AppBarTheme(color: AppColors.white),
-              //scaffoldBackgroundColor: AppColors.white,
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-            ),
-            home: SplashScreen(),
-          );
-        } else {
-          return Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-      },
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        accentColor: AppColors.primary,
+        primaryColor: AppColors.primary,
+        // primarySwatch: Colors.amber,
+        // backgroundColor: AppColors.white,
+        appBarTheme: AppBarTheme(color: AppColors.white),
+        //scaffoldBackgroundColor: AppColors.white,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: FutureBuilder(
+        future: _initialization,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Scaffold(
+              body: Center(
+                child: Text('Error'),
+              ),
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.done) {
+            return SplashScreen();
+          } else {
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 }
